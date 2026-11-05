@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -17,11 +16,9 @@ body {
     min-height: 100vh;
     font-family: Georgia, serif;
     background: linear-gradient(135deg, #ffd6e7, #fff0f5, #f8c5df);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     color: #8e315d;
 }
 
@@ -32,10 +29,16 @@ body {
     padding: 35px 25px;
     position: relative;
     z-index: 2;
+    margin: 0 auto;
 }
 
 .screen.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
     animation: appear 1s ease;
 }
 
@@ -87,6 +90,7 @@ button:hover {
 }
 
 .card {
+    width: 100%;
     background: #fff9fc;
     border: 2px solid #f2a8ca;
     border-radius: 25px;
@@ -100,6 +104,12 @@ button:hover {
 
 .card p {
     font-size: 17px;
+    line-height: 1.7;
+}
+
+.card h2 {
+    font-size: 21px;
+    line-height: 1.5;
 }
 
 .confetti {
@@ -117,6 +127,7 @@ button:hover {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(110vh) rotate(720deg);
         opacity: 0;
@@ -128,13 +139,19 @@ button:hover {
         opacity: 0;
         transform: translateY(20px) scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
+    .screen {
+        width: 95%;
+        padding: 25px 15px;
+    }
+
     h1 {
         font-size: 30px;
     }
@@ -144,7 +161,24 @@ button:hover {
     }
 
     .card {
-        padding: 24px 16px;
+        padding: 25px 16px;
+    }
+
+    .card h1 {
+        font-size: 28px;
+    }
+
+    .card p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .card h2 {
+        font-size: 19px;
+    }
+
+    .cake {
+        font-size: 85px;
     }
 }
 </style>
@@ -163,6 +197,7 @@ button:hover {
 <!-- ПЕРВЫЙ ЭКРАН -->
 
 <div class="screen active" id="start">
+
     <div style="font-size: 55px;">🎀</div>
 
     <h1>С днём рождения,<br>Самара абже!</h1>
@@ -175,6 +210,7 @@ button:hover {
     <button onclick="startParty()">
         Начать праздник ✨
     </button>
+
 </div>
 
 <!-- ВТОРОЙ ЭКРАН -->
@@ -208,19 +244,25 @@ button:hover {
         <h1>Sam abje</h1>
 
         <p>
-  Поздравляю вас с днем рождения! Желаю, чтобы все ваши желания и мечты превратились в реальность. 🥳
-  <br>
-  Вы уже многого добились и являетесь отличным примером для нас! Будьте такой же позитивной и амбициозной. 
-  <br>
-  Искренне верю, что, знания которые вы получаете сейчас, сделают вас еще более профессиональной и пригодятся в вашей работе. 
-  <br>
-  С каждым годом вы становитесь все моложе, несмотря на то, что к возрасту прибавляются цифры. 🙂
-  <br>
-  Желаю вам счастливых моментов, новых высот, чтобы вы посетили все оставшиеся страны и частых причин для улыбки! 🍾
-  <br>
-  И наконец самое главное крепкого-крепкого здоровья! 
-  <br>
-  Мы вас все любим 🥰😘😘 Проведите этот день прекрасно!!!
+            Поздравляю вас с днем рождения! Желаю, чтобы все ваши желания и мечты превратились в реальность. 🥳
+            <br><br>
+
+            Вы уже многого добились и являетесь отличным примером для нас! Будьте такой же позитивной и амбициозной.
+            <br><br>
+
+            Искренне верю, что, знания которые вы получаете сейчас, сделают вас еще более профессиональной и пригодятся в вашей работе.
+            <br><br>
+
+            С каждым годом вы становитесь все моложе, несмотря на то, что к возрасту прибавляются цифры. 🙂
+            <br><br>
+
+            Желаю вам счастливых моментов, новых высот, чтобы вы посетили все оставшиеся страны и частых причин для улыбки! 🍾
+            <br><br>
+
+            И наконец самое главное крепкого-крепкого здоровья!
+            <br><br>
+
+            Мы вас все любим 🥰😘😘 Проведите этот день прекрасно!!!
         </p>
 
         <h2>С любовью! 💗 от пельмешки Дарига</h2>
@@ -267,8 +309,6 @@ function createConfetti() {
     }, 7500);
 }
 
-// Конфетти появляются постоянно
-
 setInterval(createConfetti, 100);
 
 
@@ -281,6 +321,8 @@ function showScreen(id) {
     });
 
     document.getElementById(id).classList.add("active");
+
+    window.scrollTo(0, 0);
 }
 
 
@@ -292,7 +334,10 @@ function startParty() {
 
     const music = document.getElementById("birthdayMusic");
 
-    music.play().catch(() => {
+    music.play().then(() => {
+        document.getElementById("musicButton").textContent =
+            "🎵 Музыка: ВКЛ";
+    }).catch(() => {
         document.getElementById("musicButton").textContent =
             "🎵 Нажмите для музыки";
     });
@@ -312,13 +357,13 @@ function toggleMusic() {
 
         music.play();
 
-        button.textContent = "🎵";
+        button.textContent = "🎵 Музыка: ВКЛ";
 
     } else {
 
         music.pause();
 
-        button.textContent = "🔇";
+        button.textContent = "🔇 Музыка: ВЫКЛ";
 
     }
 
@@ -351,3 +396,4 @@ function blowCandle() {
 
 </body>
 </html>
+
